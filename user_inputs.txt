@@ -1,132 +1,43 @@
-1.1 Verifying Python and Jupyter Installations:
-    Python 3.14.3
-    7.5.5
-1.2 Installing Required Libraries
-    pip install datasets pandas matplotlib seaborn pyarrow
-2.1 Load the Amazon Reviews dataset from Hugging Face and ensure the first 100 items are successfully loaded into a pandas DataFrame with a for loop that goes up to 100 and then breaks for the reviews_dataset
-    reviews_dataset = load_dataset(
-    "McAuley-Lab/Amazon-Reviews-2023",
-    "raw_review_All_Beauty",
-    split="full",
-    trust_remote_code=True
-2.2 Loading and Handling Large Datasets with a Sample Limit
-    sample_limit = 100
-    reviews_data = []
+1.1 I verified that Python and Jupyter were installed correctly on my machine. Python version: 3.14.3. Jupyter version: 7.5.5.
 
-    for i, item in enumerate(reviews_dataset):
-        reviews_data.append(item)
-        if i + 1 >= sample_limit:
-            break
-2.3 Use reviews_df.head() to display the first few rows of the DataFrame. The data should display correctly with appropriate columns and row
-    reviews_df = pd.DataFrame(reviews_data)
-2.4 Set the Items_To_Print value to an integer of 10. Ensure an output of only the first 10 items of the DataFrame, overwriting Pandas' default output
-    Items_To_Print = 10
-    for i, item in enumerate(reviews_df):
-    if i + 1 > Items_To_Print:
-        break
-    print(item)
-3.1 Set the metadata_limit to an integer value of 100 so that no more than 100 data items will be collected from the dataset. Create a for loop like you learned about from class so that you increment up to and including 100 data samples. Use boolean operators to set the missing load_dataset parameters to True.
-    from datasets import load_dataset
-    import datasets
-    print(datasets.__version__)
+1.2 I installed the required libraries for the project, including datasets, pandas, matplotlib, seaborn, and pyarrow.
 
-    metadata_dataset = load_dataset(
-        "McAuley-Lab/Amazon-Reviews-2023",
-        "raw_meta_All_Beauty",
-        split="full",
-        trust_remote_code=True
-    )
-3.2 Analyzing the Reviews Metadata Dataset with .head() from pandas
-    for name, df in [("reviews_df", reviews_df), ("item_metadata_df", item_metadata_df)]:
-    print(name)
-    print(list(df.columns))
-3.3 Safeguarding Data Access with Large Data Sets and Handling Exceptions
-    def get_product(product_id):
-    try:
-        product = item_metadata_df[item_metadata_df["parent_asin"] == product_id]
-        if product.empty:
-            return None
-        return product.iloc[0]
-    except Exception:
-        return None
-4.1 Reviewing the columns of the datasets with .columns.
-    reviews_df.info()
-    item_metadata_df.info()
-4.2 Creating a Loop to Output the Items in a List for Better Visibility
-    for name, df in [("reviews_df", reviews_df), ("item_metadata_df", item_metadata_df)]:
-    print(name)
-    print(list(df.columns))
-4.3 Create a Concise Summary of a DataFrame with .info()
-    print(reviews_df.dtypes)
-    print(item_metadata_df.dtypes)
-5.1 Clean the data for the requested parameters
-    average_rating_filter = 4.5
+2.1 I loaded the Amazon Reviews dataset from Hugging Face using the All_Beauty review split and confirmed it could be accessed successfully.
 
-    item_metadata_cleaned_df = item_metadata_df[["title", "average_rating", "price"]].copy()
+2.2 I used a sample limit of 100 and a for loop to collect the first 100 review records so the dataset would be easier to work with.
 
-    item_metadata_cleaned_df["price"] = pd.to_numeric(
-        item_metadata_cleaned_df["price"],
-        errors="coerce"
-    )
+2.3 I converted the collected review data into a pandas DataFrame called reviews_df and used head() to inspect the first few rows.
 
-    top_products_df = item_metadata_cleaned_df[
-        item_metadata_cleaned_df["title"].notna() &
-        (item_metadata_cleaned_df["average_rating"] >= average_rating_filter) &
-        item_metadata_cleaned_df["price"].notna()
-    ].copy()
+2.4 I set Items_To_Print to 10 so I could limit the displayed output and make the results easier to read.
 
-    print(top_products_df.head())
-    print(top_products_df.shape)
-5.3 Calculating the Percentage of Cleaned Data
-    def calculate_percentage(part, whole):
-    return part / whole
-5.4 5.5 Package the dataset up for analysis with .csv and .parquet
-    top_products_df.to_csv("top_products.csv", index=False)
-    top_products_df.to_parquet("top_products.parquet", index=False)
-5.6 Collecting the Top Rated Product Titles
-    top_rated_titles = []
+3.1 I loaded the metadata dataset for All_Beauty and limited the collection to 100 items, similar to the reviews dataset.
 
-    for title in top_products_df["title"]:
-        top_rated_titles.append(title)
-6.1 - 6.4 Map the distribution of Prices for Highly Rated Products as a Histogram Chart. Map the distribution of Prices for Highly Rated Products as a Scatterplot Graph
-    average_rating_filter = 4.7
+3.2 I examined the metadata DataFrame to better understand its columns and structure.
 
-    top_products_df = item_metadata_cleaned_df[
-        item_metadata_cleaned_df["title"].notna() &
-        (item_metadata_cleaned_df["average_rating"] >= average_rating_filter) &
-        item_metadata_cleaned_df["price"].notna()
-    ].copy()
+3.3 I used exception handling in the get_product function so missing product matches would not cause the notebook to crash.
 
-    print(top_products_df.head())
-    print(top_products_df.shape)
+4.1 I reviewed the columns in both datasets using the .columns attribute.
 
-    import seaborn as sns
-    import matplotlib.pyplot as plt
+4.2 I used a loop to print the column names from both DataFrames as lists for easier visibility.
 
-    sns.histplot(data=top_products_df, x="price", kde=True)
-    plt.show()
+4.3 I used .dtypes and .info() to inspect the data types, non-null counts, and overall structure of each DataFrame.
 
-    import seaborn as sns
-    import matplotlib.pyplot as plt
+5.1 I cleaned the metadata by keeping only rows with a title, an average rating of at least 4.5, and a valid price. I also kept only the title, average_rating, and price columns.
 
-    sns.scatterplot(data=top_products_df, x="price", y="average_rating")
-    plt.show()
-6.5 Create a Dashboard of Your New Findings
-    highly_rated_products_df_cutoff = 4.7
+5.3 I created a calculate_percentage function that returns part divided by whole.
 
-    highly_rated_products_df = item_metadata_cleaned_df[
-        item_metadata_cleaned_df["title"].notna() &
-        (item_metadata_cleaned_df["average_rating"] >= highly_rated_products_df_cutoff) &
-        item_metadata_cleaned_df["price"].notna()
-    ].copy()
+5.4 I saved the cleaned dataset as a CSV file named top_products.csv.
 
-    highly_rated_products_df = highly_rated_products_df.sort_values(
-        by="average_rating",
-        ascending=False
-    )
+5.5 I saved the cleaned dataset as a Parquet file named top_products.parquet.
 
-    print(highly_rated_products_df)
+5.6 I created a list called top_rated_titles and appended the titles from the cleaned DataFrame.
 
-    sns.scatterplot(data=highly_rated_products_df, x="price", y="average_rating")
-    plt.show()
-    
+6.1 I created a histogram of product prices using the cleaned DataFrame.
+
+6.2 I enabled the KDE option in the histogram to better visualize the price distribution.
+
+6.3 I created a scatterplot using price on the x-axis and average_rating on the y-axis.
+
+6.4 I applied a stricter rating cutoff of 4.7 to focus on highly rated products.
+
+6.5 I created a sorted DataFrame of highly rated products and visualized the relationship between price and average rating with a scatterplot.
