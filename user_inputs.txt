@@ -24,7 +24,7 @@
 
 5.1 I cleaned the metadata by keeping only the columns I needed and filtering out rows with missing titles or prices. I also filtered for products with an average rating of at least 4.5 so I could focus on products that were rated more positively.
 
-5.3 I created a calculate_percentage function that returns part divided by whole. This was useful for thinking about how much of the original data remained after cleaning and filtering.
+5.3 I created a calculate_percentage function that returns part divided by whole and multiplies by 100 to produce a true percentage.
 
 5.4 I saved the cleaned dataset as a CSV file named top_products.csv. I like that CSV files are simple and easy to open in many different tools.
 
