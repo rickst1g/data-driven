@@ -1,43 +1,43 @@
-1.1 I verified that Python and Jupyter were installed correctly on my machine. Python version: 3.14.3. Jupyter version: 7.5.5.
+1.1 Before starting the project, I checked that both Python and Jupyter Notebook were installed correctly on my machine. Doing this first helped me make sure my environment was ready before I started loading data or writing code. My Python version was 3.14.3, and my Jupyter version was 7.5.5.
 
-1.2 I installed the required libraries for the project, including datasets, pandas, matplotlib, seaborn, and pyarrow.
+1.2 I installed the libraries required for the project, including datasets, pandas, matplotlib, seaborn, and pyarrow. Each one was useful for a different part of the work, such as loading the dataset, cleaning the data, creating charts, and saving the final files.
 
-2.1 I loaded the Amazon Reviews dataset from Hugging Face using the All_Beauty review split and confirmed it could be accessed successfully.
+2.1 I loaded the Amazon Reviews dataset from Hugging Face using the All_Beauty review data. This step showed me how to connect to an external dataset and bring it into my notebook for analysis.
 
-2.2 I used a sample limit of 100 and a for loop to collect the first 100 review records so the dataset would be easier to work with.
+2.2 Since the full dataset is very large, I limited my sample to the first 100 records. That made the project much easier to manage and helped me focus on understanding the workflow without getting overwhelmed by too much data at once.
 
-2.3 I converted the collected review data into a pandas DataFrame called reviews_df and used head() to inspect the first few rows.
+2.3 After collecting the review records, I converted them into a pandas DataFrame called reviews_df. I used head() to inspect the first few rows so I could confirm that the data loaded correctly and looked the way I expected.
 
-2.4 I set Items_To_Print to 10 so I could limit the displayed output and make the results easier to read.
+2.4 I set Items_To_Print to 10 so I could control how much output was displayed in the notebook. This made the notebook cleaner and easier to read while still showing enough data to understand what was happening.
 
-3.1 I loaded the metadata dataset for All_Beauty and limited the collection to 100 items, similar to the reviews dataset.
+3.1 I also loaded the metadata dataset for the All_Beauty category and limited it to 100 items. Using the same sample size for both datasets made the process more consistent and easier to compare.
 
-3.2 I examined the metadata DataFrame to better understand its columns and structure.
+3.2 I examined the metadata DataFrame to understand what information was available for each product. This helped me identify which columns would be most useful for the later analysis, especially title, average_rating, and price.
 
-3.3 I used exception handling in the get_product function so missing product matches would not cause the notebook to crash.
+3.3 I used exception handling in the get_product function so the notebook would not stop running if a product could not be found. I think this is important because real datasets are often messy, and code should be able to handle missing or unexpected values.
 
-4.1 I reviewed the columns in both datasets using the .columns attribute.
+4.1 I reviewed the columns in both datasets to better understand the difference between review data and product metadata. This helped me decide which dataset to use for each task in the project.
 
-4.2 I used a loop to print the column names from both DataFrames as lists for easier visibility.
+4.2 I used a loop to print the column names from both DataFrames because it made the output easier to read. It also helped me compare the structure of the two datasets more clearly.
 
-4.3 I used .dtypes and .info() to inspect the data types, non-null counts, and overall structure of each DataFrame.
+4.3 I used .dtypes and .info() to inspect the data types, missing values, and overall structure of each DataFrame. This step was helpful because it showed me where cleaning and type conversion would be needed before analysis.
 
-5.1 I cleaned the metadata by keeping only rows with a title, an average rating of at least 4.5, and a valid price. I also kept only the title, average_rating, and price columns.
+5.1 I cleaned the metadata by keeping only the columns I needed and filtering out rows with missing titles or prices. I also filtered for products with an average rating of at least 4.5 so I could focus on products that were rated more positively.
 
-5.3 I created a calculate_percentage function that returns part divided by whole.
+5.3 I created a calculate_percentage function that returns part divided by whole. This was useful for thinking about how much of the original data remained after cleaning and filtering.
 
-5.4 I saved the cleaned dataset as a CSV file named top_products.csv.
+5.4 I saved the cleaned dataset as a CSV file named top_products.csv. I like that CSV files are simple and easy to open in many different tools.
 
-5.5 I saved the cleaned dataset as a Parquet file named top_products.parquet.
+5.5 I also saved the cleaned dataset as a Parquet file named top_products.parquet. This helped me practice using another file format that is more efficient for data storage and analysis.
 
-5.6 I created a list called top_rated_titles and appended the titles from the cleaned DataFrame.
+5.6 I created a list called top_rated_titles and added the titles from the cleaned DataFrame. This gave me a simple way to isolate the names of the products that met the filtering conditions.
 
-6.1 I created a histogram of product prices using the cleaned DataFrame.
+6.1 I created a histogram of product prices to see how the prices were distributed. This made it easier to notice whether most products were grouped in a certain price range.
 
-6.2 I enabled the KDE option in the histogram to better visualize the price distribution.
+6.2 I enabled the KDE option in the histogram because it gave a smoother view of the distribution. I found that it made the overall pattern easier to understand than the bars alone.
 
-6.3 I created a scatterplot using price on the x-axis and average_rating on the y-axis.
+6.3 I created a scatterplot using price on the x-axis and average_rating on the y-axis. This helped me explore whether there seemed to be any relationship between how expensive a product was and how highly it was rated.
 
-6.4 I applied a stricter rating cutoff of 4.7 to focus on highly rated products.
+6.4 I applied a stricter rating cutoff of 4.7 to focus only on the most highly rated products. This gave me a smaller and more selective group to analyze.
 
-6.5 I created a sorted DataFrame of highly rated products and visualized the relationship between price and average rating with a scatterplot.
+6.5 After sorting the highly rated products and visualizing them, I noticed that higher ratings did not always mean higher prices. That was one of the most useful takeaways for me, because it showed how visualizations can reveal patterns that are not obvious just by looking at a table.
